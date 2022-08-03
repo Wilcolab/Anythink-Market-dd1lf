@@ -8,7 +8,7 @@ class Item < ApplicationRecord
   scope :sellered_by, ->(username) { where(user: User.where(username: username)) }
   scope :favorited_by, ->(username) { joins(:favorites).where(favorites: { user: User.where(username: username) }) }
 
-  scope :filter_by, ->(title) { where(title: title) }
+  scope :filter_by, ->(title) { where("title LIKE ?", "%#{title}%") }
 
   acts_as_taggable
 
