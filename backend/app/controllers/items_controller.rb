@@ -11,6 +11,7 @@ class ItemsController < ApplicationController
     @items = @items.tagged_with(params[:tag]) if params[:tag].present?
     @items = @items.sellered_by(params[:seller]) if params[:seller].present?
     @items = @items.favorited_by(params[:favorited]) if params[:favorited].present?
+    @items = @items.filter_by(params[:title]) if params[:title].present?
 
     @items_count = @items.count
 
@@ -46,7 +47,6 @@ class ItemsController < ApplicationController
     @items_count = @items.count
 
     @items = @items.order(created_at: :desc).offset(params[:offset] || 0).limit(params[:limit] || 20)
-    @items = @items.filter_by(params[:title]) if params[:title].present?
 
     render :index
   end
